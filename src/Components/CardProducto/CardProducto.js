@@ -47,7 +47,7 @@ const CardProducto = ({ nombre, codigo, imagen, multiplo }) => {
 				>
 					-
 				</Button>
-				<Input type='number' value={cantidad} textAlign='center' margin={1}/>
+				<Input type='number' value={cantidad} textAlign='center' margin={1} onChange={() => null}/>
 
 				<Button
 					bgColor='color.secundario'
