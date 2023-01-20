@@ -4,8 +4,6 @@ import { collection, query, onSnapshot, where } from 'firebase/firestore';
 import {
 	Flex,
 	Heading,
-	Text,
-	Image,
 	Divider,
 	useMediaQuery,
 } from '@chakra-ui/react';
@@ -39,10 +37,7 @@ const Lista = () => {
 				{productos.map((producto) => (
 					<CardProducto
 						key={producto.codigo}
-						nombre={producto.nombre}
-						codigo={producto.codigo}
-						imagen={producto.imagen}
-						multiplo={producto.multiplo}
+						data={producto}
 					/>
 				))}
 			</Flex>
