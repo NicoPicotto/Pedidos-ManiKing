@@ -55,7 +55,7 @@ const CardProducto = ({ data }) => {
 			
 			<Flex alignItems='center' w='100%' marginBottom={1}>
 				<Button
-					colorScheme='red'
+					colorScheme='gray'
 					_hover={{ bgColor: 'color.primario' }}
 					onClick={() => restar(cantidad)}
 					margin={1}
@@ -73,7 +73,7 @@ const CardProducto = ({ data }) => {
 				/>
 
 				<Button
-					colorScheme='green'
+					colorScheme='gray'
 					_hover={{ bgColor: 'color.primario' }}
 					onClick={() => sumar(cantidad)}
 					margin={1}
