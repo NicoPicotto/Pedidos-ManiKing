@@ -10,7 +10,7 @@ const Seleccionados = () => {
 	const totalItems = pedido.reduce((total, item) => total + item.cantidad, 0);
 
 	return (
-		<Flex w='35%' flexDir='column' p={5} bgColor='color.fondoClaro'>
+		<Flex w='35%' flexDir='column' p={5} bgColor='color.fondoClaro' position="sticky" h="100%">
 			<Heading>Tu pedido</Heading>
 			<Divider borderColor='color.primario' marginBlock={2} />
 			{totalItems === 0 ? (

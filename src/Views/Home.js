@@ -9,7 +9,7 @@ const Home = () => {
 			h='100vh'
 			w='100vw'
 			bgColor='color.fondo'
-			overflowX='hidden'
+			overflow='hidden'
 			justifyContent='space-between'
 		>
 			<Lista />

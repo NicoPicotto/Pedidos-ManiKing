@@ -30,10 +30,10 @@ const Lista = () => {
 	}, []);
 
 	return (
-		<Flex w='65%' flexDir='column' p={5}>
+		<Flex w='65%' flexDir='column' p={5} >
 			<Heading>Seleccioná tus productos</Heading>
 			<Divider borderColor='color.primario' marginBlock={2} />
-			<Flex wrap='wrap' gap={5} p={2}>
+			<Flex wrap='wrap' gap={5} p={2} overflowY="scroll">
 				{productos.map((producto) => (
 					<CardProducto
 						key={producto.codigo}

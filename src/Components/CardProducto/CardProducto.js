@@ -39,23 +39,27 @@ const CardProducto = ({ data }) => {
 
 	return (
 		<Flex
-			w='250px'
-			flexDir='column'
+			w='300px'
+			h="150px"
 			alignItems='center'
 			bgColor='white'
 			p={2}
 			borderRadius={5}
 			shadow='md'
 		>
-			<Text as='b'>{data.nombre}</Text>
-			<Image src={data.imagen} w='150px' p={2} />
-			<Flex alignItems='center' w='80%' marginBottom={1}>
+			<Flex  >
+			<Image src={data.imagen} />
+			</Flex>
+			<Flex flexDir="column">
+			<Text as='b' fontSize="sm" color="white" p={1} bgColor={data.color} lineHeight="short" borderRadius={5} textAlign="center">{data.nombre}</Text>
+			
+			<Flex alignItems='center' w='100%' marginBottom={1}>
 				<Button
-					bgColor='color.secundario'
-					color='white'
+					colorScheme='red'
 					_hover={{ bgColor: 'color.primario' }}
 					onClick={() => restar(cantidad)}
 					margin={1}
+					size="sm"
 				>
 					-
 				</Button>
@@ -65,20 +69,21 @@ const CardProducto = ({ data }) => {
 					textAlign='center'
 					margin={1}
 					onChange={() => null}
+					size="sm"
 				/>
 
 				<Button
-					bgColor='color.secundario'
-					color='white'
+					colorScheme='green'
 					_hover={{ bgColor: 'color.primario' }}
 					onClick={() => sumar(cantidad)}
 					margin={1}
+					size="sm"
 				>
 					+
 				</Button>
 			</Flex>
 			<Button
-				w='100%'
+				size="sm"
 				colorScheme='green'
 				onClick={() => {
 					agregar(cantidad);
@@ -86,6 +91,8 @@ const CardProducto = ({ data }) => {
 			>
 				Agregar
 			</Button>
+			</Flex>
+			
 		</Flex>
 	);
 };
