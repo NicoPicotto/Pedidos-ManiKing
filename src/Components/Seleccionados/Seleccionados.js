@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
 	Flex,
 	Heading,
-	Text,
-	Image,
+	Input,
 	Divider,
 	Button,
 	Textarea,
@@ -14,6 +13,8 @@ import { WarningTwoIcon } from '@chakra-ui/icons';
 
 const Seleccionados = () => {
 	const [pedido, setPedido] = useContext(PedidoContext);
+	const [nota, setNota] = useState('');
+	const [nombre, setNombre] = useState('');
 
 	const totalItems = pedido.reduce((total, item) => total + item.cantidad, 0);
 
@@ -47,16 +48,25 @@ const Seleccionados = () => {
 						})}
 					</Flex>
 					<Flex flexDir='column'>
-						<Text>Notas adicionales: </Text>
 						<Divider borderColor='color.primario' marginBlock={2} />
+						<Input
+							bgColor='white'
+							type='text'
+							value={nombre}
+							onChange={(e) => setNombre(e.target.value)}
+							placeholder='Nombre completo'
+							focusBorderColor='color.primario'
+							marginBottom={2}
+						/>
 						<Textarea
 							bgColor='white'
-              type="text"
-              overflow="clip"
+							type='text'
+							value={nota}
+							onChange={(e) => setNota(e.target.value)}
 							marginBottom={2}
 							noOfLines={10}
 							placeholder='Aclaraciones que quieras agregar a tu pedido...'
-              _focus={{borderColor: "color.primario", outline: "color.primario"}}
+							focusBorderColor='color.primario'
 						/>
 						<Button colorScheme='orange'>Generar pedido (PDF)</Button>
 					</Flex>
