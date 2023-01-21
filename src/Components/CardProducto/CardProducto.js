@@ -32,7 +32,7 @@ const CardProducto = ({ data }) => {
 				)
 			);
 			console.log('Hizo lo del repetido');
-		} else {
+		} else if (cantidad != 0) {
 			setPedido([...pedido, { ...data, cantidad: cantidad }]);
 		}
 	};
@@ -56,7 +56,6 @@ const CardProducto = ({ data }) => {
 			<Flex alignItems='center' w='100%' marginBottom={1}>
 				<Button
 					colorScheme='gray'
-					_hover={{ bgColor: 'color.primario' }}
 					onClick={() => restar(cantidad)}
 					margin={1}
 					size="sm"
@@ -74,7 +73,6 @@ const CardProducto = ({ data }) => {
 
 				<Button
 					colorScheme='gray'
-					_hover={{ bgColor: 'color.primario' }}
 					onClick={() => sumar(cantidad)}
 					margin={1}
 					size="sm"
