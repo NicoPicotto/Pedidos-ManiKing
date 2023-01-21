@@ -6,17 +6,25 @@ import {
 	Divider,
 	Button,
 	Textarea,
+	Text
 } from '@chakra-ui/react';
 import { PedidoContext } from '../../Context';
 import ItemPedido from '../ItemPedido/ItemPedido';
 import { WarningTwoIcon } from '@chakra-ui/icons';
+import DocuPDF from '../../DocuPDF';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 const Seleccionados = () => {
 	const [pedido, setPedido] = useContext(PedidoContext);
 	const [nota, setNota] = useState('');
 	const [nombre, setNombre] = useState('');
 
+	//Seteando fecha para guardarla en el PDF
+	const date = new Date();
+	const fecha = date.toLocaleDateString();
+
 	const totalItems = pedido.reduce((total, item) => total + item.cantidad, 0);
+
 
 	return (
 		<Flex
@@ -37,7 +45,7 @@ const Seleccionados = () => {
 					justifyContent='center'
 					flexDir='column'
 				>
-					<WarningTwoIcon fontSize='4rem' marginBottom={5} />
+					<WarningTwoIcon fontSize='4rem' marginBottom={5} color="color.primario"/>
 					<Heading size='md'>Todavía no hay productos en tu pedido</Heading>
 				</Flex>
 			) : (
@@ -68,7 +76,13 @@ const Seleccionados = () => {
 							placeholder='Aclaraciones que quieras agregar a tu pedido...'
 							focusBorderColor='color.primario'
 						/>
-						<Button colorScheme='orange'>Generar pedido (PDF)</Button>
+						<PDFDownloadLink
+							document={<DocuPDF nombre={nombre} fecha={fecha} nota={nota} pedido={pedido} />}
+							fileName='pedido.pdf'
+						>
+							{<Button colorScheme='orange'>Descargar pedido (PDF)</Button>
+							}
+						</PDFDownloadLink>
 					</Flex>
 				</Flex>
 			)}

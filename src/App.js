@@ -4,6 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { PedidoProvider } from './Context';
 import theme from './theme/theme';
 import Home from './Views/Home';
+import DocuPDF from './DocuPDF';
 
 const App = () => {
 	return (

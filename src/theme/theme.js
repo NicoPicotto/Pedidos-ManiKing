@@ -4,8 +4,8 @@ const colors = {
 	color: {
 		primario: '#eb5d1c',
 		secundario: '#f5b138',
-		fondo: '#F2F2F2',
-		fondoClaro: '#F6E4C4',
+		fondo: '#F7F7F7',
+		fondoClaro: '#EDEDED',
 	},
 };
 
