@@ -1,13 +1,21 @@
 import React, { useContext } from 'react';
-import { Flex, Text, Divider, Button } from '@chakra-ui/react';
+import { Flex, Text, Divider, Button, useToast } from '@chakra-ui/react';
 import { PedidoContext } from '../../Context';
 import { DeleteIcon } from '@chakra-ui/icons';
 
 const ItemPedido = ({ items }) => {
 	const [pedido, setPedido] = useContext(PedidoContext);
 
+	const toast = useToast();
+
 	const borrar = () => {
 		setPedido(pedido.filter((rep) => rep.id !== items.id));
+		toast({
+			title: 'Producto eliminado.',
+			status: 'error',
+			duration: 3000,
+			isClosable: false,
+		});
 	};
 
 	return (
@@ -33,8 +41,8 @@ const ItemPedido = ({ items }) => {
 				<Text color='white'>{items.cantidad} cajas</Text>
 			</Flex>
 			<Flex h='100%' alignItems='center'>
-				<Button colorScheme="red" marginLeft={2} onClick={() => borrar()}>
-					<DeleteIcon color="white" />
+				<Button colorScheme='gray' marginLeft={2} onClick={() => borrar()}>
+					<DeleteIcon color={items.color} />
 				</Button>
 			</Flex>
 		</Flex>

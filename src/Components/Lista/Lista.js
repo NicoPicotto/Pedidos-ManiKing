@@ -41,9 +41,8 @@ const Lista = () => {
   }, []);
 
   return (
-    <Flex w="65%" flexDir="column" p={5}>
-      <Heading>Seleccioná tus productos</Heading>
-      <Divider borderColor="color.primario" marginBlock={2} />
+    <Flex w="65%" flexDir="column" >
+      <Heading bgColor="color.primario" color="color.fondo" p={5}>Seleccioná tus productos</Heading>
       {loading ? (
         <Flex w="100%" h="100%" alignItems="center" justifyContent="center">
           <Spinner color="color.primario" size="lg" />
