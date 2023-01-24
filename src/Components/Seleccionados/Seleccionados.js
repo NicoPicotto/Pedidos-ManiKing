@@ -50,7 +50,7 @@ const Seleccionados = () => {
                         marginBottom={5}
                         color="color.primario"
                     />
-                    <Heading size="md" color="color.secundario">
+                    <Heading size="md" color="color.secundario" textAlign="center">
                         Todavía no hay productos en tu pedido
                     </Heading>
                 </Flex>
