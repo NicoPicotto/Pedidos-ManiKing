@@ -12,11 +12,10 @@ import CardProducto from "../CardProducto/CardProducto";
 
 const Lista = () => {
     const [productos, setProductos] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [isDesktop] = useMediaQuery("(min-width: 600px)");
 
     useEffect(() => {
-        setLoading(true);
         const q = query(
             collection(db, "productos"),
             where("estado", "==", true),
@@ -28,7 +27,7 @@ const Lista = () => {
                 productosArray.push({ ...doc.data(), id: doc.id });
             });
             setProductos(productosArray);
-            setLoading(false);
+            setIsLoaded(true);
         });
 
         return () => unsub();
@@ -39,7 +38,7 @@ const Lista = () => {
             <Heading bgColor="color.primario" color="color.fondo" p={5}>
                 Seleccioná tus productos
             </Heading>
-            {loading ? (
+            {!isLoaded ? (
                 <Flex
                     w="100%"
                     h="100%"
@@ -51,7 +50,7 @@ const Lista = () => {
             ) : (
                 <Flex wrap="wrap" gap={5} p={2} overflowY="scroll">
                     {productos.map((producto) => (
-                        <CardProducto key={producto.codigo} data={producto} />
+                        <CardProducto key={producto.codigo} data={producto} isLoaded={isLoaded} />
                     ))}
                 </Flex>
             )}
