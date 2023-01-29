@@ -1,22 +1,12 @@
 import React, { useState } from 'react';
 import { db } from '../../firebase';
-import {
-	doc,
-	updateDoc,
-} from 'firebase/firestore';
-import {
-	Flex,
-	Button,
-	Checkbox,
-	useCheckbox,
-	useToast,
-} from '@chakra-ui/react';
+import { doc, updateDoc, orderBy } from 'firebase/firestore';
+import { Flex, Button, Checkbox, useToast } from '@chakra-ui/react';
 
 const EditarProducto = ({ data }) => {
 	const [nuevoEstado, setNuevoEstado] = useState(data.estado);
 
 	const toast = useToast();
-	const { state } = useCheckbox();
 
 	const handleUpdate = async (estado) => {
 		const entradaRef = doc(db, 'productos', data.id);
@@ -24,33 +14,44 @@ const EditarProducto = ({ data }) => {
 			estado: nuevoEstado,
 		});
 
-		toast({
-			title: '¡Estado actualizado!',
-			status: 'success',
-			duration: 7000,
-			isClosable: true,
-			variant: 'top-accent',
-		});
+		{
+			data.estado
+				? toast({
+						title: 'El producto no se mostrará',
+						description: `"El producto ${data.nombre} ya no se mostrará como disponible."`,
+						status: 'error',
+						duration: 7000,
+						isClosable: true,
+						variant: 'top-accent',
+				  })
+				: toast({
+						title: 'Producto visible',
+						description: `"El producto ${data.nombre} ahora se muestra disponible."`,
+						status: 'success',
+						duration: 7000,
+						isClosable: true,
+						variant: 'top-accent',
+				  });
+		}
 	};
-
-	console.log(data.nombre, nuevoEstado);
 
 	return (
 		<Flex
 			flexDir='column'
+			opacity={nuevoEstado ? 1 : 0.4}
 			shadow='md'
+			w="350px"
 			borderRadius={5}
-            p={3}
+			p={3}
 			transition='0.2s'
 			_hover={{ shadow: 'lg' }}
-            bgColor={data.color}
+			bgColor={data.color}
 		>
 			<Flex>
 				<Checkbox
 					key={data.id}
-                    marginBottom={2}
-                    borderRadius={5}
-					colorScheme='gray'
+					marginBottom={2}
+					colorScheme='whiteAlpha'
 					color='white'
 					isChecked={nuevoEstado}
 					value={nuevoEstado}
@@ -59,7 +60,11 @@ const EditarProducto = ({ data }) => {
 					{data.nombre}
 				</Checkbox>
 			</Flex>
-			<Button onClick={() => handleUpdate(data.id, nuevoEstado)} colorScheme="gray" size="sm">
+			<Button
+				onClick={() => handleUpdate(data.id, nuevoEstado)}
+				colorScheme='gray'
+				size='sm'
+			>
 				Actualizar
 			</Button>
 		</Flex>
