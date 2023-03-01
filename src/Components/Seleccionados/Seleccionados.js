@@ -1,30 +1,62 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import {
     Flex,
+    Spinner,
     Heading,
     Input,
     Divider,
     Button,
     Textarea,
     Tooltip,
+    useToast,
 } from "@chakra-ui/react";
 import { PedidoContext } from "../../Context";
 import ItemPedido from "../ItemPedido/ItemPedido";
 import { WarningTwoIcon, DownloadIcon } from "@chakra-ui/icons";
-import DocuPDF from "../../DocuPDF";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import emailjs from "@emailjs/browser";
 
 const Seleccionados = () => {
     const [pedido, setPedido] = useContext(PedidoContext);
     const [nota, setNota] = useState("");
     const [nombre, setNombre] = useState("");
-
-    //Seteando fecha para guardarla en el PDF
-    const date = new Date();
-    const fecha = date.toLocaleDateString();
-    const numeroPedido = Math.floor(Date.now() / 1000);
+    const [direccion, setDireccion] = useState("");
+    const [email, setEmail] = useState("");
+    const [nroReferencia, setNroReferencia] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const form = useRef();
+    const toast = useToast();
 
     const totalItems = pedido.reduce((total, item) => total + item.cantidad, 0);
+
+    const sendEmail = (e) => {
+        e.preventDefault();
+
+        setIsLoading(true);
+        emailjs
+            .sendForm(
+                "service_s3msikc",
+                "template_hhc91se",
+                form.current,
+                "jEP7Bxf9fi3mwXKW-"
+            )
+            .then(
+                (result) => {
+                    console.log(result.text);
+                    setIsLoading(false);
+                    toast({
+                        title: "Pedido enviado",
+                        description: "Nos pondremos en contacto a la brevedad.",
+                        status: "success",
+                        duration: 3000,
+                        isClosable: false,
+                    });
+                },
+                (error) => {
+                    console.log(error.text);
+                    setIsLoading(false);
+                }
+            );
+    };
 
     return (
         <Flex
@@ -33,6 +65,9 @@ const Seleccionados = () => {
             bgColor="color.fondoClaro"
             position="sticky"
             h="100%"
+            ref={form}
+            onSubmit={sendEmail}
+            as="form"
         >
             <Heading bgColor="color.secundario" color="color.fondo" p={5}>
                 Tu pedido
@@ -50,7 +85,11 @@ const Seleccionados = () => {
                         marginBottom={5}
                         color="color.primario"
                     />
-                    <Heading size="md" color="color.secundario" textAlign="center">
+                    <Heading
+                        size="md"
+                        color="color.secundario"
+                        textAlign="center"
+                    >
                         Todavía no hay productos en tu pedido
                     </Heading>
                 </Flex>
@@ -65,60 +104,93 @@ const Seleccionados = () => {
                     </Flex>
                     <Flex flexDir="column" p={2}>
                         <Divider borderColor="color.primario" marginBlock={2} />
-                        <Input
-                            bgColor="white"
-                            type="text"
-                            value={nombre}
-                            onChange={(e) => setNombre(e.target.value)}
-                            placeholder="Nombre completo"
-                            focusBorderColor="color.primario"
-                            marginBottom={2}
-                        />
+                        <Flex w="100%">
+                            <Input
+                                bgColor="white"
+                                type="name"
+                                value={nombre}
+                                name="from_name"
+                                onChange={(e) => setNombre(e.target.value)}
+                                placeholder="Nombre completo"
+                                focusBorderColor="color.primario"
+                                isRequired
+                                margin={1}
+                            />
+                            <Input
+                                bgColor="white"
+                                type="address"
+                                value={direccion}
+                                name="user_address"
+                                onChange={(e) => setDireccion(e.target.value)}
+                                placeholder="Dirección de entrega"
+                                focusBorderColor="color.primario"
+                                isRequired
+                                margin={1}
+                            />
+                        </Flex>
+                        <Flex w="100%">
+                            <Input
+                                bgColor="white"
+                                type="email"
+                                value={email}
+                                name="email_id"
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Tu email"
+                                focusBorderColor="color.primario"
+                                isRequired
+                                margin={1}
+                            />
+                            <Input
+                                bgColor="white"
+                                value={nroReferencia}
+                                onChange={(e) =>
+                                    setNroReferencia(e.target.value)
+                                }
+                                placeholder="Nro de referencia (opcional)"
+                                focusBorderColor="color.primario"
+                                margin={1}
+                            />
+                        </Flex>
                         <Textarea
                             bgColor="white"
                             type="text"
                             value={nota}
+                            name="user_observations"
                             onChange={(e) => setNota(e.target.value)}
-                            marginBottom={2}
+                            margin={1}
                             noOfLines={10}
-                            placeholder="Aclaraciones que quieras agregar a tu pedido..."
+                            placeholder="Aclaraciones que quieras agregar a tu pedido (opcional)"
                             focusBorderColor="color.primario"
                         />
-                        <PDFDownloadLink
-                            document={
-                                <DocuPDF
-                                    nombre={nombre}
-                                    fecha={fecha}
-                                    nota={nota}
-                                    pedido={pedido}
-                                />
-                            }
-                            fileName={`Pedido ${numeroPedido} - ${nombre}`}
-                        >
-                            {nombre === "" ? (
-                                <Tooltip
-                                    hasArrow
-                                    label="Falta indicar tu nombre"
-                                    bg="red"
-                                    color="white"
-                                >
-                                    <Button
-                                        isDisabled
-                                        leftIcon={<DownloadIcon />}
-                                        colorScheme="orange"
-                                    >
-                                        Descargar pedido
-                                    </Button>
-                                </Tooltip>
-                            ) : (
+                        {nombre && direccion && email !== "" ? (
+                            <Button
+                                leftIcon={<DownloadIcon />}
+                                colorScheme="orange"
+                                margin={1}
+                                type="submit"
+                            >
+                                Enviar pedido
+                            </Button>
+                        ) : (
+                            <Tooltip
+                                hasArrow
+                                label="Faltan completar datos"
+                                bg="red"
+                                color="white"
+                            >
                                 <Button
+                                    isDisabled
                                     leftIcon={<DownloadIcon />}
                                     colorScheme="orange"
+                                    margin={1}
                                 >
-                                    Descargar pedido
+                                    {isLoading && (
+                                        <Spinner color="color.primario" />
+                                    )}
+                                    Enviar pedido
                                 </Button>
-                            )}
-                        </PDFDownloadLink>
+                            </Tooltip>
+                        )}
                     </Flex>
                 </Flex>
             )}

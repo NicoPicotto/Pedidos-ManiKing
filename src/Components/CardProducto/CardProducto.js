@@ -6,7 +6,6 @@ import {
 	Input,
 	Button,
 	useToast,
-	Skeleton,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { PedidoContext } from '../../Context';
