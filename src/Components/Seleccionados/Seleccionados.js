@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { PedidoContext } from "../../Context";
 import ItemPedido from "../ItemPedido/ItemPedido";
-import { WarningTwoIcon, DownloadIcon } from "@chakra-ui/icons";
+import { WarningTwoIcon } from "@chakra-ui/icons";
 import emailjs from "@emailjs/browser";
 
 const Seleccionados = () => {
@@ -23,6 +23,17 @@ const Seleccionados = () => {
     const [email, setEmail] = useState("");
     const [nroReferencia, setNroReferencia] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    let productos = pedido
+        .map(
+            (item, index) =>
+                `<ul key={item.index}> 
+            <li>${item.nombre} (${item.codigo}) | ${item.cantidad} unidades.</li>
+        </ul>`
+        )
+        .join("");
+
+    console.log(productos);
+
     const form = useRef();
     const toast = useToast();
 
@@ -143,6 +154,7 @@ const Seleccionados = () => {
                             <Input
                                 bgColor="white"
                                 value={nroReferencia}
+                                name="user_ref"
                                 onChange={(e) =>
                                     setNroReferencia(e.target.value)
                                 }
@@ -162,14 +174,22 @@ const Seleccionados = () => {
                             placeholder="Aclaraciones que quieras agregar a tu pedido (opcional)"
                             focusBorderColor="color.primario"
                         />
+                        <Textarea
+                            display="none"
+                            name="Order"
+                            defaultValue={productos}
+                        />
                         {nombre && direccion && email !== "" ? (
                             <Button
-                                leftIcon={<DownloadIcon />}
                                 colorScheme="orange"
                                 margin={1}
                                 type="submit"
                             >
-                                Enviar pedido
+                                {isLoading ? (
+                                    <Spinner color="white" />
+                                ) : (
+                                    "Enviar pedido"
+                                )}
                             </Button>
                         ) : (
                             <Tooltip
@@ -180,13 +200,9 @@ const Seleccionados = () => {
                             >
                                 <Button
                                     isDisabled
-                                    leftIcon={<DownloadIcon />}
                                     colorScheme="orange"
                                     margin={1}
                                 >
-                                    {isLoading && (
-                                        <Spinner color="color.primario" />
-                                    )}
                                     Enviar pedido
                                 </Button>
                             </Tooltip>
