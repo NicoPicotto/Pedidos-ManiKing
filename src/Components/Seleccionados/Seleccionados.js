@@ -23,16 +23,10 @@ const Seleccionados = () => {
     const [email, setEmail] = useState("");
     const [nroReferencia, setNroReferencia] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    let productos = pedido
-        .map(
-            (item, index) =>
-                `<ul key={item.index}> 
-            <li>${item.nombre} (${item.codigo}) | ${item.cantidad} unidades.</li>
-        </ul>`
-        )
-        .join("");
-
-    console.log(productos);
+    let Order = pedido.map(
+        (item) =>
+            `${item.nombre} \t (${item.codigo}) \t | ${item.cantidad} unidades.\n`
+    );
 
     const form = useRef();
     const toast = useToast();
@@ -65,6 +59,14 @@ const Seleccionados = () => {
                 (error) => {
                     console.log(error.text);
                     setIsLoading(false);
+                    toast({
+                        title: "Ocurrió un error",
+                        description:
+                            "Ponete en contacto con nosotros a la brevedad.",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: false,
+                    });
                 }
             );
     };
@@ -177,7 +179,7 @@ const Seleccionados = () => {
                         <Textarea
                             display="none"
                             name="Order"
-                            defaultValue={productos}
+                            defaultValue={Order}
                         />
                         {nombre && direccion && email !== "" ? (
                             <Button
