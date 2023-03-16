@@ -124,7 +124,7 @@ const Seleccionados = () => {
                                 value={nombre}
                                 name="from_name"
                                 onChange={(e) => setNombre(e.target.value)}
-                                placeholder="Nombre completo"
+                                placeholder="Razón social"
                                 focusBorderColor="color.primario"
                                 isRequired
                                 margin={1}
@@ -135,7 +135,7 @@ const Seleccionados = () => {
                                 value={direccion}
                                 name="user_address"
                                 onChange={(e) => setDireccion(e.target.value)}
-                                placeholder="Dirección de entrega"
+                                placeholder="Dirección/lugar de entrega"
                                 focusBorderColor="color.primario"
                                 isRequired
                                 margin={1}
