@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState } from "react";
 import {
     Flex,
     Spinner,
@@ -10,6 +10,7 @@ import {
     Tooltip,
     useToast,
 } from "@chakra-ui/react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { PedidoContext } from "../../Context";
 import ItemPedido from "../ItemPedido/ItemPedido";
 import { WarningTwoIcon } from "@chakra-ui/icons";
@@ -23,25 +24,60 @@ const Seleccionados = () => {
     const [email, setEmail] = useState("");
     const [nroReferencia, setNroReferencia] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    let Order = pedido.map(
-        (item) =>
-            `${item.nombre} \t (${item.codigo}) \t | ${item.cantidad} unidades.\n`
-    );
-
-    const form = useRef();
     const toast = useToast();
 
+    //Genera tabla para pasarla como variable a EmailJs
+    const tablaHTML = (
+        <table
+            border="1"
+            cellpadding="5"
+            style={{ borderCollapse: "collapse" }}
+        >
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Código</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                {pedido.map((prod) => (
+                    <tr key={prod.codigo}>
+                        <td>{prod.nombre}</td>
+                        <td style={{ textAlign: "center" }}>{prod.codigo}</td>
+                        <td style={{ textAlign: "center" }}>{prod.cantidad}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+
+    const output = document.createElement("p");
+    const staticElement = renderToStaticMarkup(tablaHTML);
+
+    //Calcula la cantidad por producto
     const totalItems = pedido.reduce((total, item) => total + item.cantidad, 0);
 
+    //Función para enviar los correos/pedido
     const sendEmail = (e) => {
         e.preventDefault();
 
         setIsLoading(true);
+
+        const templateParams = {
+            nota: nota,
+            nombre: nombre,
+            direccion: direccion,
+            email: email,
+            nroReferencia: nroReferencia,
+            productos: staticElement,
+        };
+
         emailjs
-            .sendForm(
+            .send(
                 "service_s3msikc",
                 "template_hhc91se",
-                form.current,
+                templateParams,
                 "jEP7Bxf9fi3mwXKW-"
             )
             .then(
@@ -78,7 +114,6 @@ const Seleccionados = () => {
             bgColor="color.fondoClaro"
             position="sticky"
             h="100%"
-            ref={form}
             onSubmit={sendEmail}
             as="form"
         >
@@ -178,8 +213,8 @@ const Seleccionados = () => {
                         />
                         <Textarea
                             display="none"
-                            name="Order"
-                            defaultValue={Order}
+                            defaultValue={output}
+                            name="tabla_html"
                         />
                         {nombre && direccion && email !== "" ? (
                             <Button
