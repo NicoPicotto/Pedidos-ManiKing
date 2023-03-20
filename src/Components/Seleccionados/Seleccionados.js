@@ -150,11 +150,13 @@ const Seleccionados = () => {
                             );
                         })}
                     </Flex>
-                    <Flex flexDir="column" p={2}>
+                    <Flex flexDir="column" p={1}>
                         <Divider borderColor="color.primario" marginBlock={2} />
                         <Flex w="100%">
                             <Input
                                 bgColor="white"
+                                size="sm"
+                                borderRadius={5}
                                 type="name"
                                 value={nombre}
                                 name="from_name"
@@ -166,6 +168,8 @@ const Seleccionados = () => {
                             />
                             <Input
                                 bgColor="white"
+                                size="sm"
+                                borderRadius={5}
                                 type="address"
                                 value={direccion}
                                 name="user_address"
@@ -179,6 +183,8 @@ const Seleccionados = () => {
                         <Flex w="100%">
                             <Input
                                 bgColor="white"
+                                size="sm"
+                                borderRadius={5}
                                 type="email"
                                 value={email}
                                 name="email_id"
@@ -190,27 +196,33 @@ const Seleccionados = () => {
                             />
                             <Input
                                 bgColor="white"
+                                size="sm"
+                                borderRadius={5}
                                 value={nroReferencia}
                                 name="user_ref"
                                 onChange={(e) =>
                                     setNroReferencia(e.target.value)
                                 }
-                                placeholder="Nro de referencia (opcional)"
+                                placeholder="N° Referencia/OC/Pedido (opcional)"
                                 focusBorderColor="color.primario"
                                 margin={1}
                             />
                         </Flex>
-                        <Textarea
-                            bgColor="white"
-                            type="text"
-                            value={nota}
-                            name="user_observations"
-                            onChange={(e) => setNota(e.target.value)}
-                            margin={1}
-                            noOfLines={10}
-                            placeholder="Aclaraciones que quieras agregar a tu pedido (opcional)"
-                            focusBorderColor="color.primario"
-                        />
+                        <Flex w="100%">
+                            <Textarea
+                                bgColor="white"
+                                size="sm"
+                                borderRadius={5}
+                                type="text"
+                                value={nota}
+                                name="user_observations"
+                                onChange={(e) => setNota(e.target.value)}
+                                margin={1}
+                                noOfLines={10}
+                                placeholder="Aclaraciones que quieras agregar a tu pedido (opcional)"
+                                focusBorderColor="color.primario"
+                            />
+                        </Flex>
                         <Textarea
                             display="none"
                             defaultValue={output}

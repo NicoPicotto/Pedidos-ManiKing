@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Heading, useMediaQuery, Spinner } from '@chakra-ui/react';
+import { Flex, Heading, Spinner } from '@chakra-ui/react';
 import { db } from '../../firebase';
 import {
 	collection,
 	query,
 	onSnapshot,
-	where,
 	orderBy,
 } from 'firebase/firestore';
 import EditarProducto from '../EditarProducto/EditarProducto';
