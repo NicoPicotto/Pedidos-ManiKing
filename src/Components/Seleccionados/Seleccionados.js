@@ -150,7 +150,7 @@ const Seleccionados = () => {
                             );
                         })}
                     </Flex>
-                    <Flex flexDir="column" p={1}>
+                    <Flex flexDir="column" p={1} marginBottom={2}>
                         <Divider borderColor="color.primario" marginBlock={2} />
                         <Flex w="100%">
                             <Input
