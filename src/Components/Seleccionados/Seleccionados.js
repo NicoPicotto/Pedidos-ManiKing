@@ -9,6 +9,7 @@ import {
     Textarea,
     Tooltip,
     useToast,
+    Select,
 } from "@chakra-ui/react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { PedidoContext } from "../../Context";
@@ -22,9 +23,11 @@ const Seleccionados = () => {
     const [nombre, setNombre] = useState("");
     const [direccion, setDireccion] = useState("");
     const [email, setEmail] = useState("");
+    const [ejecutivo, setEjecutivo] = useState("");
     const [nroReferencia, setNroReferencia] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const toast = useToast();
+    let timestamp = Date.now();
 
     //Genera tabla para pasarla como variable a EmailJs
     const tablaHTML = (
@@ -69,7 +72,9 @@ const Seleccionados = () => {
             nombre: nombre,
             direccion: direccion,
             email: email,
+            ejecutivo: ejecutivo,
             nroReferencia: nroReferencia,
+            timestamp: timestamp,
             productos: staticElement,
         };
 
@@ -189,11 +194,36 @@ const Seleccionados = () => {
                                 value={email}
                                 name="email_id"
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Tu email"
+                                placeholder="Email del cliente"
                                 focusBorderColor="color.primario"
                                 isRequired
                                 margin={1}
                             />
+                            <Select
+                                bgColor="white"
+                                size="sm"
+                                borderRadius={5}
+                                value={ejecutivo}
+                                name="ejecutivo"
+                                onChange={(e) => setEjecutivo(e.target.value)}
+                                placeholder="Ejecutivo a cargo"
+                                focusBorderColor="color.primario"
+                                margin={1}
+                                isRequired
+                            >
+                                <option value="gkember@prodeman.com.ar">
+                                    Gastón Kember
+                                </option>
+                                <option value="ecereijo@prodeman.com.ar">
+                                    Eugenio Cereijo
+                                </option>
+                                <option value="gcastillo@prodeman.com.ar">
+                                    Gabriel Castillo
+                                </option>
+                                <option value="cbritos@prodeman.com.ar">
+                                    Carlos Britos
+                                </option>
+                            </Select>
                             <Input
                                 bgColor="white"
                                 size="sm"
@@ -228,7 +258,7 @@ const Seleccionados = () => {
                             defaultValue={output}
                             name="tabla_html"
                         />
-                        {nombre && direccion && email !== "" ? (
+                        {nombre && direccion && email && ejecutivo !== "" ? (
                             <Button
                                 colorScheme="orange"
                                 margin={1}
