@@ -96,6 +96,13 @@ const Seleccionados = () => {
                         duration: 3000,
                         isClosable: false,
                     });
+                    setNota("");
+                    setNombre("");
+                    setDireccion("");
+                    setEmail("");
+                    setEjecutivo("");
+                    setNroReferencia("");
+                    setPedido([]);
                 },
                 (error) => {
                     console.log(error.text);
