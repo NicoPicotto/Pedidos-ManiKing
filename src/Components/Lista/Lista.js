@@ -20,6 +20,7 @@ import {
 import { useNavigate, Link as ReachLink } from "react-router-dom";
 import CardProducto from "../CardProducto/CardProducto";
 import { UserAuth } from "../../Context";
+import {ExternalLinkIcon} from "@chakra-ui/icons"
 
 const Lista = () => {
     const [productos, setProductos] = useState([]);
@@ -32,7 +33,7 @@ const Lista = () => {
         const q = query(
             collection(db, "productos"),
             where("estado", "==", true),
-            orderBy("nombre", "asc")
+            orderBy("orden", "asc")
         );
         const unsub = onSnapshot(q, (querySnapshot) => {
             let productosArray = [];
@@ -81,7 +82,7 @@ const Lista = () => {
                             />
                         </Stack>
                     )}
-                    <Button color="white" variant="link" onClick={handleLogout}>
+                    <Button leftIcon={<ExternalLinkIcon />} color="white" variant="link" onClick={handleLogout}>
                         Salir de mi cuenta
                     </Button>
                 </Stack>

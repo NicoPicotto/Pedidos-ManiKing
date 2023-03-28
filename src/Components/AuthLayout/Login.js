@@ -128,8 +128,7 @@ const Login = () => {
                         type="submit"
                         marginBottom={2}
                         color="white"
-                        bgColor="color.primario"
-                        _hover={{ bgColor: "cuarto" }}
+                        colorScheme="orange"
                     >
                         {isLoading ? (
                             <Spinner color="white" />
