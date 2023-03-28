@@ -18,7 +18,7 @@ import { WarningTwoIcon } from "@chakra-ui/icons";
 import emailjs from "@emailjs/browser";
 
 const Seleccionados = () => {
-    const [pedido, setPedido] = useContext(PedidoContext);
+    const {pedido, setPedido} = useContext(PedidoContext);
     const [nota, setNota] = useState("");
     const [nombre, setNombre] = useState("");
     const [direccion, setDireccion] = useState("");

@@ -4,6 +4,7 @@ import Lista from '../Components/Lista/Lista';
 import Seleccionados from '../Components/Seleccionados/Seleccionados';
 
 const Home = () => {
+
 	return (
 		<Flex
 			h='100vh'

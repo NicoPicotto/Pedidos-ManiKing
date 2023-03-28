@@ -10,9 +10,9 @@ import {
 import { AddIcon } from '@chakra-ui/icons';
 import { PedidoContext } from '../../Context';
 
-const CardProducto = ({ data, isLoaded }) => {
+const CardProducto = ({ data }) => {
 	const [cantidad, setCantidad] = useState(0);
-	const [pedido, setPedido] = useContext(PedidoContext);
+	const {pedido, setPedido} = useContext(PedidoContext);
 
 	const toast = useToast();
 

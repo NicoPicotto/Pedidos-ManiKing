@@ -7,13 +7,26 @@ import {
     where,
     orderBy,
 } from "firebase/firestore";
-import { Flex, Heading, useMediaQuery, Spinner } from "@chakra-ui/react";
+import {
+    Flex,
+    Heading,
+    useMediaQuery,
+    Spinner,
+    Button,
+    Stack,
+    Link,
+    Divider,
+} from "@chakra-ui/react";
+import { useNavigate, Link as ReachLink } from "react-router-dom";
 import CardProducto from "../CardProducto/CardProducto";
+import { UserAuth } from "../../Context";
 
 const Lista = () => {
     const [productos, setProductos] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isDesktop] = useMediaQuery("(min-width: 600px)");
+    const navigate = useNavigate();
+    const { logout, user } = UserAuth();
 
     useEffect(() => {
         const q = query(
@@ -33,11 +46,47 @@ const Lista = () => {
         return () => unsub();
     }, []);
 
+    //Logout function
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate("/");
+        } catch (e) {
+            console.log("Logout");
+        }
+    };
+
     return (
         <Flex w="65%" flexDir="column">
-            <Heading bgColor="color.primario" color="color.fondo" p={5}>
-                Seleccioná tus productos
-            </Heading>
+            <Stack
+                direction="row"
+                bgColor="color.primario"
+                align="center"
+                justify="space-between"
+                p={5}
+            >
+                <Heading color="color.fondo">Seleccioná tus productos</Heading>
+                <Stack direction="row" align="center">
+                    {user.uid === "aF9sUzMaHPMdtpYwT4n4Gm9woNs2" && (
+                        <Stack direction="row" align="center">
+                            <Link as={ReachLink} to="/admin">
+                                <Button color="white" variant="link">
+                                    Panel de admin
+                                </Button>
+                            </Link>
+                            <Divider
+                                orientation="vertical"
+                                h="25px"
+                                borderColor="white"
+                            />
+                        </Stack>
+                    )}
+                    <Button color="white" variant="link" onClick={handleLogout}>
+                        Salir de mi cuenta
+                    </Button>
+                </Stack>
+            </Stack>
+
             {!isLoaded ? (
                 <Flex
                     w="100%"
@@ -50,7 +99,11 @@ const Lista = () => {
             ) : (
                 <Flex wrap="wrap" gap={5} p={2} overflowY="scroll">
                     {productos.map((producto) => (
-                        <CardProducto key={producto.codigo} data={producto} isLoaded={isLoaded} />
+                        <CardProducto
+                            key={producto.codigo}
+                            data={producto}
+                            isLoaded={isLoaded}
+                        />
                     ))}
                 </Flex>
             )}
