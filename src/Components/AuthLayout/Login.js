@@ -7,6 +7,7 @@ import {
     Button,
     useToast,
     Spinner,
+    useMediaQuery,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { UserAuth } from "../../Context";
@@ -14,13 +15,13 @@ import logo from "../../assets/logo.png";
 
 const Login = () => {
     const { login, resetPassword } = UserAuth();
+    const [isMobile] = useMediaQuery("(max-width: 1100px)");
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState({
         email: "",
         password: "",
     });
 
-    const [error, setError] = useState("");
     const navigate = useNavigate();
     const toast = useToast();
 
@@ -46,28 +47,51 @@ const Login = () => {
     const handleResetPassword = async (e) => {
         e.preventDefault();
         if (!user.email)
-            return setError("Escribí un mail para recuperar tu contraseña.");
+            return toast({
+                title: "Escribí un email para recuperar tu contraseña.",
+                status: "error",
+                duration: 7000,
+                isClosable: true,
+                variant: "top-accent",
+            });
         try {
             await resetPassword(user.email);
-            setError("Te enviamos un correo para resetear tu password.");
+            toast({
+                title: "Te enviamos un correo para recuperar tu contraseña.",
+                status: "success",
+                duration: 7000,
+                isClosable: true,
+                variant: "top-accent",
+            });
         } catch (error) {
-            setError("Email inválido.");
+            toast({
+                title: "Email inválido.",
+                status: "error",
+                duration: 7000,
+                isClosable: true,
+                variant: "top-accent",
+            });
         }
     };
 
     return (
         <Stack
-            w="md"
+            w={isMobile ? "xs" : "md"}
             align="center"
             bgColor="white"
             justify="center"
             borderRadius={5}
             shadow="lg"
-            padding={5}
+            padding={isMobile ? 2 : 5}
             as="form"
             onSubmit={submitHandler}
         >
-            <Stack direction="column" align="center" h="100%">
+            <Stack
+                direction="column"
+                align="center"
+                h="100%"
+                paddingBlock={isMobile && 3}
+            >
                 <Stack w="40%" justify="center">
                     <Image src={logo} />
                 </Stack>
@@ -144,12 +168,6 @@ const Login = () => {
                         ¿Olvidaste tu contraseña?
                     </Button>
                 </Stack>
-
-                {error && (
-                    <Text color="red" fontSize="sm">
-                        {error}
-                    </Text>
-                )}
             </Stack>
         </Stack>
     );

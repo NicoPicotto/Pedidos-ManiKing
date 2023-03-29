@@ -6,12 +6,14 @@ import {
 	Input,
 	Button,
 	useToast,
+	useMediaQuery
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { PedidoContext } from '../../Context';
 
 const CardProducto = ({ data }) => {
 	const [cantidad, setCantidad] = useState(0);
+	const [isMobile] = useMediaQuery("(max-width: 1100px)");
 	const {pedido, setPedido} = useContext(PedidoContext);
 
 	const toast = useToast();
@@ -50,7 +52,7 @@ const CardProducto = ({ data }) => {
 				duration: 3000,
 				isClosable: false,
 			});
-		} else if (cantidad != 0) {
+		} else if (cantidad !== 0) {
 			setPedido([...pedido, { ...data, cantidad: cantidad }]);
 			toast({
 				title: '¡Nuevo producto agregado!',
@@ -63,8 +65,8 @@ const CardProducto = ({ data }) => {
 
 	return (
 		<Flex
-			w='270px'
-			h='150px'
+			w={isMobile ? "90%" : '270px'}
+			h={isMobile ? "fit-content" : '150px'}
 			alignItems='center'
 			bgColor='white'
 			p={2}
@@ -96,7 +98,7 @@ const CardProducto = ({ data }) => {
 						colorScheme='gray'
 						onClick={() => restar(cantidad)}
 						margin={1}
-						size='sm'
+						size={isMobile ? "lg" : 'sm'}
 					>
 						-
 					</Button>
@@ -106,19 +108,19 @@ const CardProducto = ({ data }) => {
 						textAlign='center'
 						margin={1}
 						onChange={() => null}
-						size='sm'
+						size={isMobile ? "lg" : 'sm'}
 					/>
 					<Button
 						colorScheme='gray'
 						onClick={() => sumar(cantidad)}
 						margin={1}
-						size='sm'
+						size={isMobile ? "lg" : 'sm'}
 					>
 						+
 					</Button>
 				</Flex>
 				<Button
-					size='sm'
+					size={isMobile ? "lg" : 'sm'}
 					variant='outline'
 					colorScheme='whatsapp'
 					leftIcon={<AddIcon fontSize='xs' />}

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { db } from '../../firebase';
-import { doc, updateDoc, orderBy } from 'firebase/firestore';
-import { Flex, Button, Checkbox, useToast } from '@chakra-ui/react';
+import { doc, updateDoc } from 'firebase/firestore';
+import { Flex, Button, Checkbox, useToast, useMediaQuery } from '@chakra-ui/react';
 
 const EditarProducto = ({ data }) => {
 	const [nuevoEstado, setNuevoEstado] = useState(data.estado);
+	const [isMobile] = useMediaQuery("(max-width: 1100px)");
 
 	const toast = useToast();
 
@@ -14,7 +15,7 @@ const EditarProducto = ({ data }) => {
 			estado: nuevoEstado,
 		});
 
-		{
+		
 			data.estado
 				? toast({
 						title: 'El producto no se mostrará',
@@ -32,7 +33,7 @@ const EditarProducto = ({ data }) => {
 						isClosable: true,
 						variant: 'top-accent',
 				  });
-		}
+		
 	};
 
 	return (
@@ -40,7 +41,7 @@ const EditarProducto = ({ data }) => {
 			flexDir='column'
 			opacity={nuevoEstado ? 1 : 0.4}
 			shadow='md'
-			w="350px"
+			w={isMobile ? "100%" : "350px"}
 			borderRadius={5}
 			p={3}
 			transition='0.2s'

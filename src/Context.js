@@ -3,6 +3,7 @@ import {
 	signInWithEmailAndPassword,
 	signOut,
 	onAuthStateChanged,
+	sendPasswordResetEmail
 } from 'firebase/auth';
 import { auth } from './firebase';
 
@@ -30,9 +31,11 @@ export const PedidoProvider = ({ children }) => {
 		};
 	}, []);
 
+	const resetPassword = async (email) => sendPasswordResetEmail(auth, email);
+
 
 	return (
-		<PedidoContext.Provider value={{pedido, setPedido, login, logout, user}}>
+		<PedidoContext.Provider value={{pedido, setPedido, login, logout, user, resetPassword}}>
 			{children}
 		</PedidoContext.Provider>
 	);

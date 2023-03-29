@@ -10,6 +10,7 @@ import {
     Tooltip,
     useToast,
     Select,
+    useMediaQuery
 } from "@chakra-ui/react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { PedidoContext } from "../../Context";
@@ -18,6 +19,7 @@ import { WarningTwoIcon } from "@chakra-ui/icons";
 import emailjs from "@emailjs/browser";
 
 const Seleccionados = () => {
+    const [isMobile] = useMediaQuery("(max-width: 1100px)");
     const {pedido, setPedido} = useContext(PedidoContext);
     const [nota, setNota] = useState("");
     const [nombre, setNombre] = useState("");
@@ -121,7 +123,7 @@ const Seleccionados = () => {
 
     return (
         <Flex
-            w="35%"
+            w={isMobile ? "100%" : "35%"}
             flexDir="column"
             bgColor="color.fondoClaro"
             position="sticky"

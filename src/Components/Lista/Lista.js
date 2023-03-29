@@ -20,12 +20,12 @@ import {
 import { useNavigate, Link as ReachLink } from "react-router-dom";
 import CardProducto from "../CardProducto/CardProducto";
 import { UserAuth } from "../../Context";
-import {ExternalLinkIcon} from "@chakra-ui/icons"
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 const Lista = () => {
     const [productos, setProductos] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [isDesktop] = useMediaQuery("(min-width: 600px)");
+    const [isMobile] = useMediaQuery("(max-width: 1100px)");
     const navigate = useNavigate();
     const { logout, user } = UserAuth();
 
@@ -58,9 +58,9 @@ const Lista = () => {
     };
 
     return (
-        <Flex w="65%" flexDir="column">
+        <Flex w={isMobile ? "100%" : "65%"} flexDir="column">
             <Stack
-                direction="row"
+                direction={isMobile ? "column" : "row"}
                 bgColor="color.primario"
                 align="center"
                 justify="space-between"
@@ -82,7 +82,12 @@ const Lista = () => {
                             />
                         </Stack>
                     )}
-                    <Button leftIcon={<ExternalLinkIcon />} color="white" variant="link" onClick={handleLogout}>
+                    <Button
+                        leftIcon={<ExternalLinkIcon />}
+                        color="white"
+                        variant="link"
+                        onClick={handleLogout}
+                    >
                         Salir de mi cuenta
                     </Button>
                 </Stack>
@@ -98,7 +103,13 @@ const Lista = () => {
                     <Spinner color="color.primario" size="lg" />
                 </Flex>
             ) : (
-                <Flex wrap="wrap" gap={5} p={2} overflowY="scroll">
+                <Flex
+                    wrap="wrap"
+                    gap={isMobile ? 2 : 5}
+                    p={2}
+                    justifyContent={isMobile && "center"}
+                    overflowY="scroll"
+                >
                     {productos.map((producto) => (
                         <CardProducto
                             key={producto.codigo}
