@@ -1,17 +1,17 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD095TeEkiRq5cdboL7Hs6Km19Q6rck2AQ",
-    authDomain: "pedidos-mk.firebaseapp.com",
-    projectId: "pedidos-mk",
-    storageBucket: "pedidos-mk.appspot.com",
-    messagingSenderId: "50920084154",
-    appId: "1:50920084154:web:fab5d80ea943faa3eee883"
-  };
+    apiKey: `${process.env.REACT_APP_API_KEY}`,
+    authDomain: `${process.env.REACT_APP_authDomain}`,
+    projectId: `${process.env.REACT_APP_projectId}`,
+    storageBucket: `${process.env.REACT_APP_storageBucket}`,
+    messagingSenderId: `${process.env.REACT_APP_messagingSenderId}`,
+    appId: `${process.env.REACT_APP_appId}`,
+};
 
-export const ADM_KEY = "aF9sUzMaHPMdtpYwT4n4Gm9woNs2"
+export const ADM_KEY = `${process.env.REACT_APP_ADM_KEY}`;
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
