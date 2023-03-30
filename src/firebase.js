@@ -11,8 +11,6 @@ const firebaseConfig = {
     appId: `${process.env.REACT_APP_appId}`,
 };
 
-export const ADM_KEY = `${process.env.REACT_APP_ADM_KEY}`;
-
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 const db = getFirestore(app);
