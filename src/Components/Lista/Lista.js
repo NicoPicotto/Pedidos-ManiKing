@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../../firebase";
+import { db, ADM_KEY } from "../../firebase";
 import {
     collection,
     query,
@@ -68,7 +68,7 @@ const Lista = () => {
             >
                 <Heading color="color.fondo">Seleccioná tus productos</Heading>
                 <Stack direction="row" align="center">
-                    {user.uid === "aF9sUzMaHPMdtpYwT4n4Gm9woNs2" && (
+                    {user.uid === ADM_KEY && (
                         <Stack direction="row" align="center">
                             <Link as={ReachLink} to="/admin">
                                 <Button color="white" variant="link">

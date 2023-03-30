@@ -11,6 +11,8 @@ const firebaseConfig = {
     appId: "1:50920084154:web:fab5d80ea943faa3eee883"
   };
 
+export const ADM_KEY = "aF9sUzMaHPMdtpYwT4n4Gm9woNs2"
+
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 const db = getFirestore(app);

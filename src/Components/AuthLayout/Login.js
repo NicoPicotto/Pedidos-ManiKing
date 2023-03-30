@@ -116,7 +116,7 @@ const Login = () => {
                                     setUser({ ...user, email: e.target.value })
                                 }
                                 variant="outline"
-                                placeholder="juanperez@gmail.com"
+                                placeholder="usuario@ejemplo.com"
                                 type="email"
                                 focusBorderColor="color.primario"
                                 isRequired
